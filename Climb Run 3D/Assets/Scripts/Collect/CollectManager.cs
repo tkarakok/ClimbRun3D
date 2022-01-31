@@ -11,17 +11,17 @@ public class CollectManager : Singleton<CollectManager>
     private GameObject _lastStair;
     private int stairCounter=0;
 
-
+    public int StairCounter { get => stairCounter; set => stairCounter = value; }
 
     public void InstantiateStair()
     {
-        stairCounter++;
+        StairCounter++;
         GameObject stair = Instantiate(stairPrefab);
         _lastStair = stair;
         
-        if (stairCounter !=1)
+        if (StairCounter !=1)
         {
-            stair.transform.position = spawnPoint.position + new Vector3(0, (stairCounter - 1) * .4f, 0);
+            stair.transform.position = spawnPoint.position + new Vector3(0, (StairCounter - 1) * .4f, 0);
         }
         else
         {
@@ -44,7 +44,7 @@ public class CollectManager : Singleton<CollectManager>
     IEnumerator PlayerMove(Transform target)
     {
         yield return new WaitForSeconds(2.5f);
-        player.DOMove(_lastStair.transform.position + new Vector3(0,1,0), 1).OnComplete(() => player.DOMove(target.position, 1));
+        player.DOMove(_lastStair.transform.position + new Vector3(0,1,0), 1).OnComplete(() => player.DOMoveZ(target.position.z, 1));
         StartCoroutine(ResetStair());
     }
 
@@ -56,7 +56,7 @@ public class CollectManager : Singleton<CollectManager>
         newStairParent.transform.SetParent(parentsParent);
         stairParent = newStairParent.transform;
         StateManager.Instance.status = Status.OffClimb;
-        stairCounter = 0;
+        StairCounter = 0;
     }
 
 }

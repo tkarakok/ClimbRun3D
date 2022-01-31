@@ -9,14 +9,20 @@ public class CollisionController : MonoBehaviour
         if (other.CompareTag("Stair"))
         {
             other.tag = "Untagged";
-            Destroy(other.gameObject);
             CollectManager.Instance.InstantiateStair();
+            StartCoroutine(GameManager.Instance.PlusPoint(other.transform)); 
+            Destroy(other.gameObject);
         }
         else if (other.CompareTag("Climb"))
         {
             other.tag = "Untagged";
-            StateManager.Instance.status = Status.OnClimb;
             Wall wall = other.GetComponent<Wall>();
+            if (wall.stairCount > CollectManager.Instance.StairCounter)
+            {
+                Debug.Log("game over");
+            }
+            StateManager.Instance.status = Status.OnClimb;
+            
             CollectManager.Instance.Climb(wall.climRotate,wall.climbTilt,wall.stairCount,wall.target);
             
         }
