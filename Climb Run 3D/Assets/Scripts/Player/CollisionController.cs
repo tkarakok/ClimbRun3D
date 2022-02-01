@@ -29,7 +29,10 @@ public class CollisionController : MonoBehaviour
             Finish finish = other.GetComponent<Finish>();
             StateManager.Instance.status = Status.OnClimb;
             CollectManager.Instance.Finish(finish.climRotate,finish.climbTilt,finish.finishPosition);
-            
+        }
+        else if (other.CompareTag("Multiplier"))
+        {
+            Debug.Log(other.GetComponent<Multiplier>().multiplierValue);
         }
     }
 }
