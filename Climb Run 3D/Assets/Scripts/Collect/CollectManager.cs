@@ -1,14 +1,14 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using DG.Tweening;
 
 public class CollectManager : Singleton<CollectManager>
 {
     public GameObject stairPrefab,stairParentPrefab;
     public Transform player,stairParent,parentsParent,spawnPoint;
-    
+    public List<GameObject> stairs;
 
-    private GameObject _lastStair;
     private int stairCounter=0;
 
     public int StairCounter { get => stairCounter; set => stairCounter = value; }
@@ -17,8 +17,7 @@ public class CollectManager : Singleton<CollectManager>
     {
         StairCounter++;
         GameObject stair = Instantiate(stairPrefab);
-        _lastStair = stair;
-        
+        stairs.Add(stair);
         if (StairCounter !=1)
         {
             stair.transform.position = spawnPoint.position + new Vector3(0, (StairCounter - 1) * .4f, 0);
@@ -30,7 +29,19 @@ public class CollectManager : Singleton<CollectManager>
         stair.transform.SetParent(stairParent);
     }
 
-    public void Climb(Vector3 climbRotate,Vector3 climbTilt, int stairCount,Transform target)
+    public void ObstacleMinusStair(int value)
+    {
+        for (int i = 0; i < value; i++)
+        {
+            StairCounter--;
+            GameObject stair = stairs[stairs.Count - 1];
+            stairs.Remove(stair);
+            Destroy(stair);
+        }
+        
+    }
+
+    public void Climb(Vector3 climbRotate,Vector3 climbTilt,Transform target)
     {
         
         stairParent.parent = null;
@@ -44,14 +55,14 @@ public class CollectManager : Singleton<CollectManager>
     IEnumerator PlayerMove(Transform target)
     {
         yield return new WaitForSeconds(2.5f);
-        player.DOMove(_lastStair.transform.position + new Vector3(0,1,0), 1).OnComplete(() => player.DOMoveZ(target.position.z, 1));
+        player.DOMove(stairParent.GetChild(stairParent.childCount - 1).gameObject.transform.position + new Vector3(0,1,0), 1).OnComplete(() => player.DOMoveZ(target.position.z, 1));
         StartCoroutine(ResetStair());
     }
 
     IEnumerator PlayerMove()
     {
         yield return new WaitForSeconds(2.5f);
-        player.DOMove(_lastStair.transform.position + new Vector3(0, 1, 0), 1).OnComplete(() => player.DOMoveZ(player.position.z + 1, 1));
+        player.DOMove(stairParent.GetChild(stairParent.childCount - 1).gameObject.transform.position + new Vector3(0, 1, 0), 1).OnComplete(() => player.DOMoveZ(player.position.z + 1, 1));
         
     }
 

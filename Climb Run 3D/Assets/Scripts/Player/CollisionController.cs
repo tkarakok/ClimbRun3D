@@ -20,7 +20,7 @@ public class CollisionController : MonoBehaviour
 
             StateManager.Instance.status = Status.OnClimb;
 
-            CollectManager.Instance.Climb(wall.climRotate, wall.climbTilt, wall.stairCount, wall.target);
+            CollectManager.Instance.Climb(wall.climRotate, wall.climbTilt, wall.target);
 
         }
         else if (other.CompareTag("Finish"))
@@ -28,11 +28,26 @@ public class CollisionController : MonoBehaviour
             other.tag = "Untagged";
             Finish finish = other.GetComponent<Finish>();
             StateManager.Instance.status = Status.OnClimb;
-            CollectManager.Instance.Finish(finish.climRotate,finish.climbTilt,finish.finishPosition);
+            CollectManager.Instance.Finish(finish.climRotate, finish.climbTilt, finish.finishPosition);
         }
         else if (other.CompareTag("Multiplier"))
         {
+            other.tag = "Untagged";
             Debug.Log(other.GetComponent<Multiplier>().multiplierValue);
+        }
+        else if (other.CompareTag("Minus"))
+        {
+            other.tag = "Untagged";
+            CollectManager.Instance.ObstacleMinusStair(other.GetComponent<Multiplier>().multiplierValue);
+
+        }
+        else if (other.CompareTag("Plus"))
+        {
+            other.tag = "Untagged";
+            for (int i = 0; i < other.GetComponent<Multiplier>().multiplierValue; i++)
+            {
+                CollectManager.Instance.InstantiateStair();
+            }
         }
     }
 }

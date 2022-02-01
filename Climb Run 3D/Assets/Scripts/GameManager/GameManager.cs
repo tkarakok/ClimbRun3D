@@ -18,11 +18,5 @@ public class GameManager : Singleton<GameManager>
         
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            CollectManager.Instance.InstantiateStair();
-        }
-    }
+   
 }
