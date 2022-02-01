@@ -48,6 +48,13 @@ public class CollectManager : Singleton<CollectManager>
         StartCoroutine(ResetStair());
     }
 
+    IEnumerator PlayerMove()
+    {
+        yield return new WaitForSeconds(2.5f);
+        player.DOMove(_lastStair.transform.position + new Vector3(0, 1, 0), 1).OnComplete(() => player.DOMoveZ(player.position.z + 1, 1));
+        
+    }
+
     IEnumerator ResetStair()
     {
         yield return new WaitForSeconds(2);
@@ -59,4 +66,15 @@ public class CollectManager : Singleton<CollectManager>
         StairCounter = 0;
     }
 
+
+    public void Finish(Vector3 climbRotate,Vector3 climbTilt,Transform finishPosition)
+    {
+        stairParent.parent = null;
+        stairParent.DOMove(new Vector3(player.position.x, stairParent.transform.position.y, finishPosition.position.z), 2);
+        stairParent.DORotate(climbRotate, 1).OnComplete(() => stairParent.DORotate(climbTilt, .5f));
+        StartCoroutine(PlayerMove());
+    }
+
+    
+    
 }
