@@ -15,7 +15,6 @@ public class GameManager : Singleton<GameManager>
         point.transform.DOMoveY(10, 6);
         yield return new WaitForSeconds(.5f);
         Destroy(point);
-        
     }
 
    
