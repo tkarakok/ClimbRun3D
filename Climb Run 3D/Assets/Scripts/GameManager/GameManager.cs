@@ -17,5 +17,7 @@ public class GameManager : Singleton<GameManager>
         Destroy(point);
     }
 
+    
+
    
 }

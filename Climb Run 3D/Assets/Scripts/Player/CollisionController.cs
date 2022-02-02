@@ -20,7 +20,9 @@ public class CollisionController : MonoBehaviour
 
             StateManager.Instance.status = Status.OnClimb;
 
-            CollectManager.Instance.Climb(wall.climRotate, wall.climbTilt, wall.target);
+            CollectManager.Instance.Climb(wall.climRotate, wall.climbTilt, wall.stairSize, wall.target);
+
+
 
         }
         else if (other.CompareTag("Finish"))
@@ -38,7 +40,7 @@ public class CollisionController : MonoBehaviour
         else if (other.CompareTag("Minus"))
         {
             other.tag = "Untagged";
-            CollectManager.Instance.ObstacleMinusStair(other.GetComponent<Multiplier>().multiplierValue);
+            CollectManager.Instance.ObstacleMinusStair(other.GetComponent<Multiplier>().multiplierValue,false);
 
         }
         else if (other.CompareTag("Plus"))

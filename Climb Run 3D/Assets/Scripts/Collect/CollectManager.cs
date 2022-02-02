@@ -31,7 +31,7 @@ public class CollectManager : Singleton<CollectManager>
         stair.transform.SetParent(stairParent);
     }
 
-    public void ObstacleMinusStair(int value)
+    public void ObstacleMinusStair(int value,bool bonus)
     {
         for (int i = 0; i < value; i++)
         {
@@ -39,21 +39,36 @@ public class CollectManager : Singleton<CollectManager>
             GameObject stair = _stairs[_stairs.Count - 1];
             _stairs.Remove(stair);
             Destroy(stair);
+            if (bonus)
+            {
+                StartCoroutine(GameManager.Instance.PlusPoint(stair.transform));
+            }
+            
         }
 
     }
-
     #endregion
 
 
     #region Player Climb To Stair
-    public void Climb(Vector3 climbRotate, Vector3 climbTilt, Transform target)
+    public void Climb(Vector3 climbRotate, Vector3 climbTilt,int stairSize ,Transform target)
     {
 
         stairParent.parent = null;
         stairParent.DOMove(new Vector3(player.position.x, stairParent.transform.position.y, player.position.z + 1), 2);
         stairParent.DORotate(climbRotate, 1).OnComplete(() => stairParent.DORotate(climbTilt, .5f));
-        StartCoroutine(PlayerMove(target));
+        if (stairSize > StairCounter)
+        {
+            // game over
+            Debug.Log("Game Over");
+        }
+        else
+        {
+            int bonus = StairCounter - stairSize;
+            ObstacleMinusStair(bonus,true);
+            StartCoroutine(PlayerMove(target));
+        }
+        
 
     }
 
