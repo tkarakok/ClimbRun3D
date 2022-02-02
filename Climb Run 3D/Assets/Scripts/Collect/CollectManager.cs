@@ -51,9 +51,9 @@ public class CollectManager : Singleton<CollectManager>
 
 
     #region Player Climb To Stair
-    public void Climb(Vector3 climbRotate, Vector3 climbTilt,int stairSize ,Transform target)
+    public void Climb(Vector3 climbRotate, Vector3 climbTilt,int stairSize , float speed,Transform target)
     {
-
+        MovementController.Instance.animator.SetBool("Run",false);
         stairParent.parent = null;
         stairParent.DOMove(new Vector3(player.position.x, stairParent.transform.position.y, player.position.z + 1), 2);
         stairParent.DORotate(climbRotate, 1).OnComplete(() => stairParent.DORotate(climbTilt, .5f));
@@ -66,30 +66,35 @@ public class CollectManager : Singleton<CollectManager>
         {
             int bonus = StairCounter - stairSize;
             ObstacleMinusStair(bonus,true);
-            StartCoroutine(PlayerMove(target));
+            
+            StartCoroutine(PlayerMove(target,speed));
         }
         
 
     }
 
 
-    IEnumerator PlayerMove(Transform target)
+    IEnumerator PlayerMove(Transform target,float speed)
     {
         yield return new WaitForSeconds(2.5f);
-        player.DOMove(stairParent.GetChild(stairParent.childCount - 1).gameObject.transform.position + new Vector3(0, 1, 0), 1).OnComplete(() => player.DOMoveZ(target.position.z, 1));
+        MovementController.Instance.animator.SetBool("Climb", true);
+        player.DOMoveZ(target.position.z, 1);
+        player.DOMove(stairParent.GetChild(stairParent.childCount - 1).gameObject.transform.position,2 ).OnComplete(() => player.DOMoveZ(target.position.z, 1)) ;
         StartCoroutine(ResetStair());
     }
 
     IEnumerator PlayerMove()
     {
         yield return new WaitForSeconds(2.5f);
-        player.DOMove(stairParent.GetChild(stairParent.childCount - 1).gameObject.transform.position + new Vector3(0, 1, 0), 1).OnComplete(() => player.DOMoveZ(player.position.z + 1, 1));
+        player.DOMove(stairParent.GetChild(stairParent.childCount - 1).gameObject.transform.position , 3).OnComplete(FinishMove);
 
     }
 
     IEnumerator ResetStair()
     {
         yield return new WaitForSeconds(2);
+        MovementController.Instance.animator.SetBool("Run",true);
+        MovementController.Instance.animator.SetBool("Climb",false);
         GameObject newStairParent = Instantiate(stairParentPrefab);
         newStairParent.transform.position = parentsParent.position;
         newStairParent.transform.SetParent(parentsParent);
@@ -98,9 +103,22 @@ public class CollectManager : Singleton<CollectManager>
         StairCounter = 0;
     }
 
+    void FinishMove()
+    {
+        player.DOMoveZ(player.position.z + 1, 1);
+        MovementController.Instance.animator.SetBool("Win", true);
+    }
+
+    IEnumerator FinishAnimation()
+    {
+        yield return new WaitForSeconds(2);
+        MovementController.Instance.animator.SetBool("Climb", true);
+    }
 
     public void Finish(Vector3 climbRotate, Vector3 climbTilt, Transform finishPosition)
     {
+        MovementController.Instance.animator.SetBool("Run", false);
+        StartCoroutine(FinishAnimation());
         stairParent.parent = null;
         stairParent.DOMove(new Vector3(player.position.x, stairParent.transform.position.y, finishPosition.position.z), 2);
         stairParent.DORotate(climbRotate, 1).OnComplete(() => stairParent.DORotate(climbTilt, .5f));

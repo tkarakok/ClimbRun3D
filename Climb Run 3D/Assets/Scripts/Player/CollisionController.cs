@@ -20,7 +20,7 @@ public class CollisionController : MonoBehaviour
 
             StateManager.Instance.status = Status.OnClimb;
 
-            CollectManager.Instance.Climb(wall.climRotate, wall.climbTilt, wall.stairSize, wall.target);
+            CollectManager.Instance.Climb(wall.climRotate, wall.climbTilt, wall.stairSize, wall.speed,wall.target);
 
 
 

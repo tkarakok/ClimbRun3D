@@ -1,8 +1,11 @@
 using UnityEngine;
-using DG.Tweening;
+using System.Collections;
+using System.Collections.Generic;
 
-public class MovementController : MonoBehaviour
+public class MovementController : Singleton<MovementController>
 {
+    public Animator animator;
+
     [SerializeField] private float _limitX = 2;
     [SerializeField] private float _xSpeed = 25;
     [SerializeField] private float _forwardSpeed = 2;
