@@ -9,8 +9,11 @@ public class CollisionController : MonoBehaviour
         if (other.CompareTag("Stair"))
         {
             other.tag = "Untagged";
+            
             CollectManager.Instance.InstantiateStair();
             StartCoroutine(GameManager.Instance.PlusPoint(other.transform));
+            
+            
             Destroy(other.gameObject);
         }
         else if (other.CompareTag("Climb"))
@@ -23,19 +26,22 @@ public class CollisionController : MonoBehaviour
             CollectManager.Instance.Climb(wall.climRotate, wall.climbTilt, wall.stairSize, wall.speed,wall.target);
 
 
-
         }
         else if (other.CompareTag("Finish"))
         {
             other.tag = "Untagged";
+            
             Finish finish = other.GetComponent<Finish>();
             StateManager.Instance.status = Status.OnClimb;
             CollectManager.Instance.Finish(finish.climRotate, finish.climbTilt, finish.finishPosition);
         }
-        else if (other.CompareTag("Multiplier"))
+        else if (other.CompareTag("Multiplier") && StateManager.Instance.state == State.InGame)
         {
             other.tag = "Untagged";
-            Debug.Log(other.GetComponent<Multiplier>().multiplierValue);
+            
+            GameManager.Instance.Multiplier = other.GetComponent<Multiplier>().multiplierValue;
+            StateManager.Instance.state = State.EndGame;
+            UIManager.Instance.EndLevel();
         }
         else if (other.CompareTag("Minus"))
         {

@@ -18,6 +18,8 @@ public class CollectManager : Singleton<CollectManager>
     public void InstantiateStair()
     {
         StairCounter++;
+        GameManager.Instance.EarnPoint(1);
+        UIManager.Instance.InGameCoinTextUpdate();
         GameObject stair = Instantiate(stairPrefab);
         _stairs.Add(stair);
         if (StairCounter != 1)
@@ -36,14 +38,17 @@ public class CollectManager : Singleton<CollectManager>
         for (int i = 0; i < value; i++)
         {
             StairCounter--;
+            
             GameObject stair = _stairs[_stairs.Count - 1];
             _stairs.Remove(stair);
             Destroy(stair);
-            if (bonus)
-            {
-                StartCoroutine(GameManager.Instance.PlusPoint(stair.transform));
-            }
             
+        }
+        if (bonus)
+        {
+            GameManager.Instance.EarnBonus(value * 2);
+            UIManager.Instance.InGameBonusTextUpdate();
+            GameManager.Instance.PlusBonus((value *2).ToString());
         }
 
     }
@@ -59,8 +64,7 @@ public class CollectManager : Singleton<CollectManager>
         stairParent.DORotate(climbRotate, 1).OnComplete(() => stairParent.DORotate(climbTilt, .5f));
         if (stairSize > StairCounter)
         {
-            // game over
-            Debug.Log("Game Over");
+            UIManager.Instance.GameOver();
         }
         else
         {
