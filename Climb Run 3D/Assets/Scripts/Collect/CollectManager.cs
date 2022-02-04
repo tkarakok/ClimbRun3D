@@ -46,6 +46,7 @@ public class CollectManager : Singleton<CollectManager>
         }
         if (bonus)
         {
+            AudioManager.Instance.PlaySound(AudioManager.Instance.bonusClip);
             GameManager.Instance.EarnBonus(value * 2);
             UIManager.Instance.InGameBonusTextUpdate();
             GameManager.Instance.PlusBonus((value *2).ToString());

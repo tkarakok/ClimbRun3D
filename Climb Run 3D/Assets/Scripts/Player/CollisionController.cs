@@ -12,7 +12,7 @@ public class CollisionController : MonoBehaviour
             
             CollectManager.Instance.InstantiateStair();
             StartCoroutine(GameManager.Instance.PlusPoint(other.transform));
-            
+            AudioManager.Instance.PlaySound(AudioManager.Instance.collectClip);
             
             Destroy(other.gameObject);
         }
@@ -30,7 +30,7 @@ public class CollisionController : MonoBehaviour
         else if (other.CompareTag("Finish"))
         {
             other.tag = "Untagged";
-            
+            AudioManager.Instance.PlaySound(AudioManager.Instance.finishClip);
             Finish finish = other.GetComponent<Finish>();
             StateManager.Instance.status = Status.OnClimb;
             CollectManager.Instance.Finish(finish.climRotate, finish.climbTilt, finish.finishPosition);
@@ -38,7 +38,8 @@ public class CollisionController : MonoBehaviour
         else if (other.CompareTag("Multiplier") && StateManager.Instance.state == State.InGame)
         {
             other.tag = "Untagged";
-            
+            AudioManager.Instance.PlaySound(AudioManager.Instance.confettiClip);
+            AudioManager.Instance.gameMusicAudioSource.enabled = false;
             GameManager.Instance.Multiplier = other.GetComponent<Multiplier>().multiplierValue;
             StateManager.Instance.state = State.EndGame;
             UIManager.Instance.EndLevel();

@@ -5,11 +5,13 @@ using UnityEngine.UI;
 public class UIManager : Singleton<UIManager>
 {
     public GameObject canvas;
+    public GameObject coinPanel;
     [Header("Panels")]
     public GameObject mainMenuPanel;
     public GameObject inGamePanel;
     public GameObject gameOverPanel;
     public GameObject endGamePanel;
+    public GameObject shopPanel;
     [Header("Main Menu")]
     public Text mainMenuTotalCoinText;
     public Text mainMenuLevelText;
@@ -24,7 +26,8 @@ public class UIManager : Singleton<UIManager>
     public Text endGameCurrentCoinText;
     public Text endGameMultiplierText;
     public Text endGameTotalCoinText;
-
+    [Header("Shop")]
+    public Button shopButton;
 
     private GameObject _currentPanel;
 
@@ -45,16 +48,21 @@ public class UIManager : Singleton<UIManager>
         InGameCoinTextUpdate();
         InGameLevelTextUIUpdate();
         MovementController.Instance.animator.SetBool("Run", true);
+        AudioManager.Instance.PlaySound(AudioManager.Instance.uiClickClip);
+        AudioManager.Instance.gameMusicAudioSource.enabled = true;
     }
     public void RestartGame()
     {
         LevelManager.Instance.ChangeLevel("LEVEL " + LevelManager.Instance.CurrentLevel);
+        AudioManager.Instance.PlaySound(AudioManager.Instance.uiClickClip);
     }
 
     public void NextLevelButton()
     {
         PlayerPrefs.SetInt("Level", LevelManager.Instance.CurrentLevel++);
         LevelManager.Instance.ChangeLevel("LEVEL " + PlayerPrefs.GetInt("Level"));
+        AudioManager.Instance.PlaySound(AudioManager.Instance.uiClickClip);
+        
     }
     #endregion
 
@@ -97,6 +105,16 @@ public class UIManager : Singleton<UIManager>
         endGameMultiplierText.text = GameManager.Instance.Multiplier.ToString();
         endGameTotalCoinText.text = GameManager.Instance.CurrentCoin.ToString();
     }
+
+    // shop 
+    public void ShopUIUpdate()
+    {
+        if (PlayerPrefs.GetInt("Total") < 1000 || ShopManager.Instance.UnlockRandomItem())
+        {
+            shopButton.interactable = false;
+        }
+        mainMenuTotalCoinText.text = PlayerPrefs.GetInt("Total").ToString();
+    }
     #endregion
 
     #region GameOver
@@ -116,4 +134,20 @@ public class UIManager : Singleton<UIManager>
     }
     #endregion
 
+    #region Shop
+    public void OpenShop()
+    {
+        ShopUIUpdate();
+        shopPanel.SetActive(true);
+        coinPanel.transform.SetParent(shopPanel.transform);
+        AudioManager.Instance.PlaySound(AudioManager.Instance.uiClickClip);
+    }
+    public void CloseShop()
+    {
+        shopPanel.SetActive(false);
+        coinPanel.transform.SetParent(mainMenuPanel.transform);
+        AudioManager.Instance.PlaySound(AudioManager.Instance.uiClickClip);
+    }
+
+    #endregion
 }

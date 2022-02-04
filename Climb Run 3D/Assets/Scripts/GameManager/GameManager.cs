@@ -26,7 +26,9 @@ public class GameManager : Singleton<GameManager>
         _maxDistance = finishLine.transform.position.z - MovementController.Instance.transform.position.z;
         CurrentCoin = 0;
         Bonus = 0;
+        PlayerPrefs.SetInt("Total",9000);
         TotalCoin = PlayerPrefs.GetInt("Total");
+        
     }
 
     private void Update()
