@@ -1,4 +1,5 @@
-
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -28,29 +29,24 @@ public class UIManager : Singleton<UIManager>
     public Text endGameTotalCoinText;
     [Header("Shop")]
     public Button shopButton;
+    [Header("Settings")]
+    public GameObject subSettingsPanel;
+
 
     private GameObject _currentPanel;
 
     private void Start()
     {
         _currentPanel = mainMenuPanel;
-        Debug.Log(LevelManager.Instance.CurrentLevel);
-        MainMenuUIUpdate();
         
     }
     
     #region Buttons
     public void StartGame()
     {
-        
-        StateManager.Instance.state = State.InGame;
+        EventManager.Instance.InGame();
         PanelChange(inGamePanel);
-        InGameBonusTextUpdate();
-        InGameCoinTextUpdate();
-        InGameLevelTextUIUpdate();
-        MovementController.Instance.animator.SetBool("Run", true);
-        AudioManager.Instance.PlaySound(AudioManager.Instance.uiClickClip);
-        AudioManager.Instance.gameMusicAudioSource.enabled = true;
+       
     }
     public void RestartGame()
     {
@@ -60,7 +56,6 @@ public class UIManager : Singleton<UIManager>
 
     public void NextLevelButton()
     {
-        
         LevelManager.Instance.ChangeLevel("LEVEL " + LevelManager.Instance.CurrentLevel);
         AudioManager.Instance.PlaySound(AudioManager.Instance.uiClickClip);
         
@@ -154,5 +149,28 @@ public class UIManager : Singleton<UIManager>
         AudioManager.Instance.PlaySound(AudioManager.Instance.uiClickClip);
     }
 
+    #endregion
+
+    #region Settings
+    public void SettingsButton()
+    {
+        if (subSettingsPanel.activeInHierarchy)
+        {
+            subSettingsPanel.SetActive(false);
+        }
+        else
+        {
+            subSettingsPanel.SetActive(true);
+            StartCoroutine(CloseSettingsPanel());
+        }
+        
+    }
+
+    IEnumerator CloseSettingsPanel()
+    {
+        yield return new WaitForSeconds(3);
+        subSettingsPanel.SetActive(false);
+    }
+    
     #endregion
 }

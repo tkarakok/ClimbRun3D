@@ -9,23 +9,17 @@ public class CollisionController : MonoBehaviour
         if (other.CompareTag("Stair"))
         {
             other.tag = "Untagged";
-            
             CollectManager.Instance.InstantiateStair();
             StartCoroutine(GameManager.Instance.PlusPoint(other.transform));
             AudioManager.Instance.PlaySound(AudioManager.Instance.collectClip);
-            
             Destroy(other.gameObject);
         }
         else if (other.CompareTag("Climb"))
         {
             other.tag = "Untagged";
             Wall wall = other.GetComponent<Wall>();
-
             StateManager.Instance.status = Status.OnClimb;
-
             CollectManager.Instance.Climb(wall.climRotate, wall.climbTilt, wall.stairSize, wall.speed,wall.target);
-
-
         }
         else if (other.CompareTag("Finish"))
         {
@@ -38,13 +32,9 @@ public class CollisionController : MonoBehaviour
         else if (other.CompareTag("Multiplier") && StateManager.Instance.state == State.InGame)
         {
             other.tag = "Untagged";
-            AdManager.Instance.InterstitialAdShow();
-            LevelManager.Instance.SetLevel();
-            AudioManager.Instance.PlaySound(AudioManager.Instance.confettiClip);
-            AudioManager.Instance.gameMusicAudioSource.enabled = false;
             GameManager.Instance.Multiplier = other.GetComponent<Multiplier>().multiplierValue;
-            StateManager.Instance.state = State.EndGame;
-            UIManager.Instance.EndLevel();
+            EventManager.Instance.EndGame();
+            
         }
         else if (other.CompareTag("Minus"))
         {
