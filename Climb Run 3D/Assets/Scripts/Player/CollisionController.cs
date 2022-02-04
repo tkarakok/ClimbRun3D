@@ -38,6 +38,8 @@ public class CollisionController : MonoBehaviour
         else if (other.CompareTag("Multiplier") && StateManager.Instance.state == State.InGame)
         {
             other.tag = "Untagged";
+            AdManager.Instance.InterstitialAdShow();
+            LevelManager.Instance.SetLevel();
             AudioManager.Instance.PlaySound(AudioManager.Instance.confettiClip);
             AudioManager.Instance.gameMusicAudioSource.enabled = false;
             GameManager.Instance.Multiplier = other.GetComponent<Multiplier>().multiplierValue;

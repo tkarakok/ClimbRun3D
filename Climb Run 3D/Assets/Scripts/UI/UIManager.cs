@@ -34,7 +34,7 @@ public class UIManager : Singleton<UIManager>
     private void Start()
     {
         _currentPanel = mainMenuPanel;
-        
+        Debug.Log(LevelManager.Instance.CurrentLevel);
         MainMenuUIUpdate();
         
     }
@@ -42,6 +42,7 @@ public class UIManager : Singleton<UIManager>
     #region Buttons
     public void StartGame()
     {
+        
         StateManager.Instance.state = State.InGame;
         PanelChange(inGamePanel);
         InGameBonusTextUpdate();
@@ -59,8 +60,8 @@ public class UIManager : Singleton<UIManager>
 
     public void NextLevelButton()
     {
-        PlayerPrefs.SetInt("Level", LevelManager.Instance.CurrentLevel++);
-        LevelManager.Instance.ChangeLevel("LEVEL " + PlayerPrefs.GetInt("Level"));
+        
+        LevelManager.Instance.ChangeLevel("LEVEL " + LevelManager.Instance.CurrentLevel);
         AudioManager.Instance.PlaySound(AudioManager.Instance.uiClickClip);
         
     }
@@ -80,7 +81,7 @@ public class UIManager : Singleton<UIManager>
     public void MainMenuUIUpdate()
     {
         mainMenuTotalCoinText.text = PlayerPrefs.GetInt("Total").ToString();
-        mainMenuLevelText.text = "LEVEL " +(LevelManager.Instance.CurrentLevel + 1).ToString();
+        mainMenuLevelText.text = "LEVEL " + (LevelManager.Instance.CurrentLevel + 1).ToString();
     }
     // in game UI
     public void InGameCoinTextUpdate()
@@ -112,6 +113,10 @@ public class UIManager : Singleton<UIManager>
         if (PlayerPrefs.GetInt("Total") < 1000 || ShopManager.Instance.UnlockRandomItem())
         {
             shopButton.interactable = false;
+        }
+        else
+        {
+            shopButton.interactable = true;
         }
         mainMenuTotalCoinText.text = PlayerPrefs.GetInt("Total").ToString();
     }
