@@ -6,6 +6,7 @@ using DG.Tweening;
 public class GameManager : Singleton<GameManager>
 {
     public GameObject plusPointPrefab;
+    public GameObject minusPointPrefab;
     public GameObject plusBonusPrefab;
     public GameObject finishLine;
     public Slider levelProgressBar;
@@ -26,7 +27,6 @@ public class GameManager : Singleton<GameManager>
         _maxDistance = finishLine.transform.position.z - MovementController.Instance.transform.position.z;
         CurrentCoin = 0;
         Bonus = 0;
-        PlayerPrefs.SetInt("Total",750);
         TotalCoin = PlayerPrefs.GetInt("Total");
         
     }
@@ -58,6 +58,14 @@ public class GameManager : Singleton<GameManager>
     public IEnumerator PlusPoint(Transform target)
     {
         GameObject point = Instantiate(plusPointPrefab);
+        point.transform.position = target.position;
+        point.transform.DOMoveY(10, 6);
+        yield return new WaitForSeconds(.5f);
+        Destroy(point);
+    }
+    public IEnumerator MinusPoint(Transform target)
+    {
+        GameObject point = Instantiate(minusPointPrefab);
         point.transform.position = target.position;
         point.transform.DOMoveY(10, 6);
         yield return new WaitForSeconds(.5f);

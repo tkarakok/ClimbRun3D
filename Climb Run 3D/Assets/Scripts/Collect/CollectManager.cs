@@ -38,6 +38,10 @@ public class CollectManager : Singleton<CollectManager>
         for (int i = 0; i < value; i++)
         {
             StairCounter--;
+            if (stairCounter < 0)
+            {
+                UIManager.Instance.GameOver();
+            }
             
             GameObject stair = _stairs[_stairs.Count - 1];
             _stairs.Remove(stair);

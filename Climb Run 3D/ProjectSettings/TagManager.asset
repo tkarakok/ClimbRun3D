@@ -9,6 +9,8 @@ TagManager:
   - Multiplier
   - Minus
   - Plus
+  - MinusStair
+  - GameOver
   layers:
   - Default
   - TransparentFX

@@ -11,6 +11,7 @@ public class AdManager : Singleton<AdManager>
     private InterstitialAd _interstitialAd;
     private BannerView _bannerView;
     private RewardedAd _rewardedAd;
+    
 
     AdRequest AdRequest()
     {

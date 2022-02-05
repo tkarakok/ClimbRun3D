@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CollisionController : MonoBehaviour
 {
+    public ParticleSystem confetti;
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Stair"))
@@ -13,6 +14,18 @@ public class CollisionController : MonoBehaviour
             StartCoroutine(GameManager.Instance.PlusPoint(other.transform));
             AudioManager.Instance.PlaySound(AudioManager.Instance.collectClip);
             Destroy(other.gameObject);
+        }
+        else if (other.CompareTag("MinusStair"))
+        {
+            other.tag = "Untagged";
+            CollectManager.Instance.ObstacleMinusStair(1, false);
+            StartCoroutine(GameManager.Instance.MinusPoint(other.transform));
+            AudioManager.Instance.PlaySound(AudioManager.Instance.collectClip);
+            Destroy(other.gameObject);
+        }
+        else if (other.CompareTag("GameOver"))
+        {
+            UIManager.Instance.GameOver();
         }
         else if (other.CompareTag("Climb"))
         {
@@ -24,6 +37,7 @@ public class CollisionController : MonoBehaviour
         else if (other.CompareTag("Finish"))
         {
             other.tag = "Untagged";
+            
             AudioManager.Instance.PlaySound(AudioManager.Instance.finishClip);
             Finish finish = other.GetComponent<Finish>();
             StateManager.Instance.status = Status.OnClimb;
@@ -32,6 +46,9 @@ public class CollisionController : MonoBehaviour
         else if (other.CompareTag("Multiplier") && StateManager.Instance.state == State.InGame)
         {
             other.tag = "Untagged";
+            confetti.gameObject.transform.position = other.transform.position;
+            confetti.gameObject.SetActive(true);
+
             GameManager.Instance.Multiplier = other.GetComponent<Multiplier>().multiplierValue;
             EventManager.Instance.EndGame();
             

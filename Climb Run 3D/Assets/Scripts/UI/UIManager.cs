@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class UIManager : Singleton<UIManager>
 {
@@ -32,13 +33,16 @@ public class UIManager : Singleton<UIManager>
     [Header("Settings")]
     public GameObject subSettingsPanel;
 
+    [Header("Animator")]
+    public Animator animator;
 
     private GameObject _currentPanel;
-
+    private Vector3 _firstPosition;
     private void Start()
+
     {
         _currentPanel = mainMenuPanel;
-        
+        _firstPosition = shopPanel.transform.position;
     }
     
     #region Buttons
@@ -121,6 +125,7 @@ public class UIManager : Singleton<UIManager>
     public void GameOver()
     {
         PanelChange(gameOverPanel);
+        StateManager.Instance.state = State.GameOver;
 
     }
     #endregion
@@ -139,12 +144,13 @@ public class UIManager : Singleton<UIManager>
     {
         ShopUIUpdate();
         shopPanel.SetActive(true);
-        coinPanel.transform.SetParent(shopPanel.transform);
+        shopPanel.transform.DOMove(mainMenuPanel.transform.position,.35f).OnComplete(()=> coinPanel.transform.SetParent(shopPanel.transform));
+        
         AudioManager.Instance.PlaySound(AudioManager.Instance.uiClickClip);
     }
     public void CloseShop()
     {
-        shopPanel.SetActive(false);
+        shopPanel.transform.DOMove(_firstPosition, .35f).OnComplete(() => shopPanel.SetActive(false));
         coinPanel.transform.SetParent(mainMenuPanel.transform);
         AudioManager.Instance.PlaySound(AudioManager.Instance.uiClickClip);
     }
@@ -154,9 +160,11 @@ public class UIManager : Singleton<UIManager>
     #region Settings
     public void SettingsButton()
     {
+        animator.SetBool("Settings", true);
         if (subSettingsPanel.activeInHierarchy)
         {
             subSettingsPanel.SetActive(false);
+            animator.SetBool("Settings", false);
         }
         else
         {
@@ -170,6 +178,7 @@ public class UIManager : Singleton<UIManager>
     {
         yield return new WaitForSeconds(3);
         subSettingsPanel.SetActive(false);
+        animator.SetBool("Settings",false);
     }
     
     #endregion
