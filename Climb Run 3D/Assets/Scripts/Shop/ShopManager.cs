@@ -81,7 +81,7 @@ public class ShopManager : Singleton<ShopManager>
     public void UnlockItem()
     {
         AudioManager.Instance.PlaySound(AudioManager.Instance.uiClickClip);
-        PlayerPrefs.SetInt("Total", (PlayerPrefs.GetInt("Total") - 1000));
+        PlayerPrefs.SetInt("Total", (PlayerPrefs.GetInt("Total") - 2000));
         
     again:
         int random = Random.Range(0, 9);

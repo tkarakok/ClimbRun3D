@@ -13,7 +13,6 @@ public class LevelManager : Singleton<LevelManager>
     private void Start()
     {
         GetLevelName();
-        CurrentLevel = 0;
         ChangeLevel("LEVEL " + CurrentLevel);
     }
     public void SetLevel()

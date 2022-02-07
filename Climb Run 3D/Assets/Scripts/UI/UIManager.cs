@@ -32,6 +32,7 @@ public class UIManager : Singleton<UIManager>
     public Button shopButton;
     [Header("Settings")]
     public GameObject subSettingsPanel;
+    
 
     [Header("Animator")]
     public Animator animator;
@@ -109,7 +110,7 @@ public class UIManager : Singleton<UIManager>
     // shop 
     public void ShopUIUpdate()
     {
-        if (PlayerPrefs.GetInt("Total") < 1000 || ShopManager.Instance.UnlockRandomItem())
+        if (PlayerPrefs.GetInt("Total") < 2000 || ShopManager.Instance.UnlockRandomItem())
         {
             shopButton.interactable = false;
         }
@@ -180,6 +181,8 @@ public class UIManager : Singleton<UIManager>
         subSettingsPanel.SetActive(false);
         animator.SetBool("Settings",false);
     }
-    
+
     #endregion
+
+   
 }
