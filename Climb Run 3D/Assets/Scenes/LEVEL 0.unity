@@ -263,10 +263,6 @@ MonoBehaviour:
   endGameTotalCoinText: {fileID: 1330759466}
   shopButton: {fileID: 910824587417954301}
   subSettingsPanel: {fileID: 1366144}
-  dailyRewardPanel: {fileID: 3156671794999348323}
-  comeAgainLaterPanel: {fileID: 3156671794999348322}
-  rewardPanel: {fileID: 3156671794999348321}
-  remainingTime: {fileID: 3156671794999348320}
   animator: {fileID: 1597604845}
 --- !u!114 &78325632 stripped
 MonoBehaviour:
@@ -441,9 +437,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40c69f88754249844bbe4e8c876a67de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bannerId: ca-app-pub-3940256099942544/6300978111
-  interstitialId: ca-app-pub-3940256099942544/1033173712
-  rewardedAdId: ca-app-pub-3940256099942544/5224354917
+  bannerId: ca-app-pub-5516298993040743/1754463045
+  interstitialId: ca-app-pub-5516298993040743/4085769453
+  rewardedAdId: ca-app-pub-5516298993040743/7833442775
 --- !u!1 &157395088 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3156671795110601935, guid: 198ddac0aea8bc040b747d10b567e380, type: 3}
@@ -4446,32 +4442,6 @@ PrefabInstance:
       objectReference: {fileID: 70663321}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 198ddac0aea8bc040b747d10b567e380, type: 3}
---- !u!114 &3156671794999348320 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1453439954440440361, guid: 198ddac0aea8bc040b747d10b567e380, type: 3}
-  m_PrefabInstance: {fileID: 3156671794999348319}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!1 &3156671794999348321 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4018913574635969616, guid: 198ddac0aea8bc040b747d10b567e380, type: 3}
-  m_PrefabInstance: {fileID: 3156671794999348319}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &3156671794999348322 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2212651333394471654, guid: 198ddac0aea8bc040b747d10b567e380, type: 3}
-  m_PrefabInstance: {fileID: 3156671794999348319}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &3156671794999348323 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5405496969182896180, guid: 198ddac0aea8bc040b747d10b567e380, type: 3}
-  m_PrefabInstance: {fileID: 3156671794999348319}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &3347516958638669138 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 412647494685470989, guid: 198ddac0aea8bc040b747d10b567e380, type: 3}

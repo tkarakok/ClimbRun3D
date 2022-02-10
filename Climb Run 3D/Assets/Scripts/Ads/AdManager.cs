@@ -19,6 +19,7 @@ public class AdManager : Singleton<AdManager>
     }
     private void Start()
     {
+        
         RequestBanner();
         RequestInterstitialAd();
         RequestRewardedAd();

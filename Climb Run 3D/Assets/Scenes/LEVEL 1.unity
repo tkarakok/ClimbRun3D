@@ -499,9 +499,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40c69f88754249844bbe4e8c876a67de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bannerId: ca-app-pub-3940256099942544/6300978111
-  interstitialId: ca-app-pub-3940256099942544/1033173712
-  rewardedAdId: ca-app-pub-3940256099942544/5224354917
+  bannerId: ca-app-pub-5516298993040743/1754463045
+  interstitialId: ca-app-pub-5516298993040743/4085769453
+  rewardedAdId: ca-app-pub-5516298993040743/7833442775
 --- !u!1 &157395088 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3156671795110601935, guid: 198ddac0aea8bc040b747d10b567e380, type: 3}
