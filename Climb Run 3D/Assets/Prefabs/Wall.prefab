@@ -14,7 +14,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &7106646041375781513
 Transform:
@@ -48,7 +48,7 @@ GameObject:
   m_TagString: Climb
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &7106646043321841412
 Transform:
@@ -141,5 +141,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   climRotate: {x: 0, y: -90, z: 0}
   climbTilt: {x: 0, y: -90, z: -35}
-  stairCount: 15
+  stairSize: 0
+  speed: 0
   target: {fileID: 7106646041375781513}

@@ -15,6 +15,24 @@ public class CollectManager : Singleton<CollectManager>
 
 
     #region Stair Instantiate and Destroy
+    public void InstantiateStair(GameObject gameObject)
+    {
+        StairCounter++;
+        GameManager.Instance.EarnPoint(1);
+        UIManager.Instance.InGameCoinTextUpdate();
+        Destroy(gameObject.GetComponent<Rotator>());
+        gameObject.transform.eulerAngles = new Vector3(0,90,0);
+        _stairs.Add(gameObject);
+        if (StairCounter != 1)
+        {
+            gameObject.transform.position = spawnPoint.position + new Vector3(0, (StairCounter - 1) * .4f,0);
+        }
+        else
+        {
+            gameObject.transform.position = spawnPoint.position;
+        }
+        gameObject.transform.SetParent(stairParent);
+    }
     public void InstantiateStair()
     {
         StairCounter++;
@@ -31,6 +49,8 @@ public class CollectManager : Singleton<CollectManager>
             stair.transform.position = spawnPoint.position;
         }
         stair.transform.SetParent(stairParent);
+        
+
     }
 
     public void ObstacleMinusStair(int value,bool bonus)
@@ -45,7 +65,8 @@ public class CollectManager : Singleton<CollectManager>
             
             GameObject stair = _stairs[_stairs.Count - 1];
             _stairs.Remove(stair);
-            Destroy(stair);
+            stair.gameObject.SetActive(false);
+            stair.transform.SetParent(null);
             
         }
         if (bonus)

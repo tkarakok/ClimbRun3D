@@ -10,10 +10,10 @@ public class CollisionController : MonoBehaviour
         if (other.CompareTag("Stair"))
         {
             other.tag = "Untagged";
-            CollectManager.Instance.InstantiateStair();
+            CollectManager.Instance.InstantiateStair(other.gameObject);
             StartCoroutine(GameManager.Instance.PlusPoint(other.transform));
             AudioManager.Instance.PlaySound(AudioManager.Instance.collectClip);
-            Destroy(other.gameObject);
+            //Destroy(other.gameObject);
         }
         else if (other.CompareTag("MinusStair"))
         {
